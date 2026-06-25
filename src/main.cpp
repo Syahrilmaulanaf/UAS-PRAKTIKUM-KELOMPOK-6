@@ -90,7 +90,7 @@ int main(){
     hotel.tambahKamar(201, "Deluxe Room", 600000);
     hotel.tambahKamar(202, "Deluxe Room", 600000);
     hotel.tambahKamar(301, "Suite Room ", 1200000);
-
+ 
     int pilihan;
     do {
         cout << "\n==================================================\n";
@@ -117,6 +117,25 @@ int main(){
         } else if (pilihan == 5) {
             cout << "\n[+] Keluar dari aplikasi. Terima kasih!\n";
         }
+      
+      switch (pilihan) {
+            case 1:
+                hotel.tampilkanKamar();
+                break;
+
+            case 2: {
+                Tamu tamuBaru;
+                cout << "\n--- Tambah Antrean Tamu ---\n";
+                cout << "Nama Tamu        : ";
+                cin.ignore();
+                getline(cin, tamuBaru.namaTamu);
+                cout << "No. Identitas/KTP: ";
+                getline(cin, tamuBaru.nomorIdentitas);
+
+                antreanLobi.push(tamuBaru);
+                cout << "[Sukses] " << tamuBaru.namaTamu << " telah ditambahkan ke antrean lobi.\n";
+                break;
+            }
         
     } while (pilihan != 5); 
 
