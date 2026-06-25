@@ -4,12 +4,6 @@
 #include <iomanip>
 using namespace std;
 
-// branch-faza
-struct Tamu {
-    string namaTamu;
-    string nomorIdentitas;
-}; 
-
 struct Kamar {
     int nomorKamar;
     string tipeKamar;
@@ -82,7 +76,12 @@ public:
     }
 };
 
-int main(){
+struct Tamu {
+    string namaTamu;
+    string nomorIdentitas;
+};
+
+int main() {
     ManajemenKamar hotel;
     queue<Tamu> antreanLobi;
     hotel.tambahKamar(101, "Single Room", 350000);
@@ -90,7 +89,7 @@ int main(){
     hotel.tambahKamar(201, "Deluxe Room", 600000);
     hotel.tambahKamar(202, "Deluxe Room", 600000);
     hotel.tambahKamar(301, "Suite Room ", 1200000);
- 
+
     int pilihan;
     do {
         cout << "\n==================================================\n";
@@ -111,17 +110,36 @@ int main(){
             cout << "\n[!] Input tidak valid! Masukkan angka antara 1-5.\n";
             continue;
         }
-        
-        if (pilihan == 1) {
-            hotel.tampilkanKamar();
-        } else if (pilihan == 5) {
-            cout << "\n[+] Keluar dari aplikasi. Terima kasih!\n";
-        }
-      
-      switch (pilihan) {
+
+        switch (pilihan) {
             case 1:
                 hotel.tampilkanKamar();
                 break;
+
+            case 2: {
+                Tamu tamuBaru;
+                cout << "\n--- Tambah Antrean Tamu ---\n";
+                cout << "Nama Tamu        : ";
+                cin.ignore();
+                getline(cin, tamuBaru.namaTamu);
+                cout << "No. Identitas/KTP: ";
+                getline(cin, tamuBaru.nomorIdentitas);
+
+                antreanLobi.push(tamuBaru);
+                cout << "[Sukses] " << tamuBaru.namaTamu << " telah ditambahkan ke antrean lobi.\n";
+                break;
+            }
+
+            case 3: {
+                if (antreanLobi.empty()) {
+                    cout << "\n[!] Lobi kosong. Tidak ada antrean tamu yang perlu diproses.\n";
+                } else {
+                    Tamu tamuSekarang = antreanLobi.front();
+                    cout << "\n--- Memproses Tamu Terdepan ---\n";
+                    cout << "Nama Tamu: " << tamuSekarang.namaTamu << endl;
+
+                    int noKamarPilihan;
+                    bool checkInSukses = false;
 
                     do {
                         hotel.tampilkanKamar();
@@ -147,42 +165,19 @@ int main(){
                 }
                 break;
             }
-            case 2: {
-                Tamu tamuBaru;
-                cout << "\n--- Tambah Antrean Tamu ---\n";
-                cout << "Nama Tamu        : ";
-                cin.ignore();
-                getline(cin, tamuBaru.namaTamu);
-                cout << "No. Identitas/KTP: ";
-                getline(cin, tamuBaru.nomorIdentitas);
-             case 3: {
-                if (antreanLobi.empty()) {
-                    cout << "\n[!] Lobi kosong. Tidak ada antrean tamu yang perlu diproses.\n";
-                } else {
-                    Tamu tamuSekarang = antreanLobi.front();
-                    cout << "\n--- Memproses Tamu Terdepan ---\n";
-                    cout << "Nama Tamu: " << tamuSekarang.namaTamu << endl;
-
-                    int noKamarPilihan;
-                    bool checkInSukses = false;
-
-                antreanLobi.push(tamuBaru);
-                cout << "[Sukses] " << tamuBaru.namaTamu << " telah ditambahkan ke antrean lobi.\n";
-                break;
-            }
-             case 4:
+            case 4:
                 cout << "\n[Info] Jumlah tamu yang mengantre di lobi saat ini: "
                      << antreanLobi.size() << " orang.\n";
                 break;
-             case 5:
+
+            case 5:
                 cout << "\nKeluar dari sistem. Terima kasih, Cap!\n";
                 break;
 
             default:
                 cout << "\n[!] Pilihan tidak tersedia. Silakan coba lagi.\n";
         }
-        
-    } while (pilihan != 5); 
+    } while (pilihan != 5);
 
     return 0;
 }
